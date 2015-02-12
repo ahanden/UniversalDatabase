@@ -96,12 +96,11 @@ CREATE TABLE `interactions` (
   PRIMARY KEY (`interaction_id`,`entrez_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `orthologs`;
-CREATE TABLE `orthologs` (
-  `human_id` int(10) unsigned NOT NULL,
-  `ortholog_id` int(10) unsigned NOT NULL,
-  `ortholog_taxonomy` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`human_id`,`ortholog_id`,`ortholog_taxonomy`)
+DROP TABLE IF EXISTS `homologs`;
+CREATE TABLE `homologs` (
+  `h_group` int(10) unsigned NOT NULL,
+  `entrez_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`h_group`,`entrez_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `psi_terms`;
