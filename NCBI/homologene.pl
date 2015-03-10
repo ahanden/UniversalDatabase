@@ -32,7 +32,9 @@ sub main {
     my $dbh = DBI->connect("dbi:mysql:$db:localhost",$user,$password,
         {RaiseError => 1, AutoCommit => 0}) or die;
 
-    exec_main($dbh, $fname);
+    eval {
+        exec_main($dbh, $fname);
+    };
 
     if ($@) {
         print "Error encountered: rolling back changes.\n";

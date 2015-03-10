@@ -32,6 +32,7 @@ sub main {
     my $dbh = DBI->connect("dbi:mysql:$db:localhost",$user,$password,
         {RaiseError => 1, AutoCommit => 0}) or die;
 
+    eval {
         exec_main($dbh, $fname);
     };
 
