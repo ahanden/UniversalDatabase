@@ -41,7 +41,9 @@ sub main {
     $synonym_query = $dbh->prepare("SELECT entrez_id FROM gene_synonyms WHERE symbol = ?");
     $discontinued_query = $dbh->prepare("SELECT entrez_id FROM discontinued_genes WHERE discontinued_symbol = ?");
 
-    exec_main($dbh, $fname);
+    eval {
+        exec_main($dbh, $fname);
+    }
 
     if ($@) {
         print "Error encountered: rolling back changes.\n";

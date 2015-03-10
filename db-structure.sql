@@ -31,20 +31,22 @@ CREATE TABLE `gene_locations` (
   PRIMARY KEY (`entrez_id`,`map_location`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `gene_synonyms`;
-CREATE TABLE `gene_synonyms` (
-  `entrez_id` int(10) unsigned NOT NULL,
-  `symbol` varchar(30) NOT NULL,
-  PRIMARY KEY (`entrez_id`,`symbol`),
-  KEY `symbol (symbol)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 DROP TABLE IF EXISTS `gene_xrefs`;
 CREATE TABLE `gene_xrefs` (
   `entrez_id` int(10) unsigned NOT NULL,
   `Xref_db` varchar(20) NOT NULL,
   `Xref_id` varchar(30) NOT NULL,
-  PRIMARY KEY (`entrez_id`,`Xref_db`,`Xref_id`)
+  PRIMARY KEY (`entrez_id`,`Xref_db`,`Xref_id`),
+  KEY `Xref_db` (`Xref_db`),
+  KEY `Xref_id` (`Xref_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `gene_synonyms`;
+CREATE TABLE `gene_synonyms` (
+  `entrez_id` int(10) unsigned NOT NULL,
+  `symbol` varchar(30) NOT NULL,
+  PRIMARY KEY (`entrez_id`,`symbol`),
+  KEY `symbol` (symbol)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `genes`;
@@ -121,4 +123,27 @@ DROP TABLE IF EXISTS `taxonomies`;
 CREATE TABLE `taxonomies` (
   `tax_id` int(10) unsigned PRIMARY KEY,
   `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `drugs`;
+CREATE TABLE `drugs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `database` varchar(20) NOT NULL,
+  `external_id` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `drug_targets`;
+CREATE TABLE `drug_targets` (
+  `drug_id` int(10) unsigned NOT NULL,
+  `entrez_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY(`drug_id`,`entrez_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `atc_codes`;
+CREATE TABLE `atc_codes` (
+  `drug_id` int(10) unsigned NOT NULL,
+  `atc` varchar(8) NOT NULL,
+  PRIMARY KEY(`drug_id`, `atc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
