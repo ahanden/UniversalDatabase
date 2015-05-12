@@ -2,7 +2,7 @@
 
 set -e
 RAWFILES=/data01/backup/rawfiles/latest
-VERBOSE=false
+VERBOSE=
 
 # Execute getopt on the arguments passed to this program, identified by the special character $@
 PARSED_OPTIONS=$(getopt -n "$0"  -o hr:v --long "help,rawfiles:,v"  -- "$@")
@@ -30,7 +30,7 @@ while true; do
             RAWFILES=$2
             shift 2;;
         -v|--verbose)
-            VERBOSE=true
+            VERBOSE="--verbose"
             shift;;
         --)
             shift
@@ -102,13 +102,13 @@ fi
 if [ $VERBOSE ]; then
     echo -n "Updating database... "
 fi
-echo -e "$DB\n$USER\n$PASS" | perl NCBI/gene_info.pl $RAWFILES/gene_info
-echo -e "$DB\n$USER\n$PASS" | perl NCBI/gene_history.pl $RAWFILES/gene_history
-echo -e "$DB\n$USER\n$PASS" | perl NCBI/uniprot.pl $RAWFILES/gene2accession $RAWFILES/gene_refseq_uniprotkb_collab
-echo -e "$DB\n$USER\n$PASS" | perl NCBI/tax_names.pl $RAWFILES/names.dmp
-echo -e "$DB\n$USER\n$PASS" | perl NCBI/homologene.pl $RAWFILES/homologene.data
-echo -e "$DB\n$USER\n$PASS" | perl DrugBank/drugbank.pl $RAWFILES/drugbank.xml
-echo -e "$DB\n$USER\n$PASS" | perl REACTOME/biopax.pl $RAWFILES/Homo_sapiens.owl
+echo -e "$DB\n$USER\n$PASS" | perl NCBI/gene_info.pl $RAWFILES/gene_info $VERBOSE
+echo -e "$DB\n$USER\n$PASS" | perl NCBI/gene_history.pl $RAWFILES/gene_history $VERBOSE
+echo -e "$DB\n$USER\n$PASS" | perl NCBI/uniprot.pl $RAWFILES/gene2accession $RAWFILES/gene_refseq_uniprotkb_collab $VERBOSE
+echo -e "$DB\n$USER\n$PASS" | perl NCBI/tax_names.pl $RAWFILES/names.dmp $VERBOSE
+echo -e "$DB\n$USER\n$PASS" | perl NCBI/homologene.pl $RAWFILES/homologene.data $VERBOSE
+echo -e "$DB\n$USER\n$PASS" | perl DrugBank/drugbank.pl $RAWFILES/drugbank.xml $VERBOSE
+echo -e "$DB\n$USER\n$PASS" | perl REACTOME/biopax.pl $RAWFILES/Homo_sapiens.owl $VERBOSE
 if [ $VERBOSE ]; then
     echo "Done"
 fi

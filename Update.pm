@@ -52,6 +52,7 @@ sub update {
         $self->exec_main();
     };
     if ($@) {
+        print STDERR $@;
         print STDERR "Error encountered: rolling back changes.\n";
         $self->{dbh}->rollback();
         exit 1;
@@ -101,7 +102,7 @@ sub connectDB {
 sub logProgress {
     my $self = shift;
     $self->{progress}++;
-    if(int(100*$self->{progress}/$self->{prog_total}) > int(100*($self->{progress}-1)/$self->{prog_total})) {
+    if($self->{progess} == 1 || int(100*$self->{progress}/$self->{prog_total}) > int(100*($self->{progress}-1)/$self->{prog_total})) {
         $self->log("Progress: ".int(100*$self->{progress}/$self->{prog_total})."%\r");
     }
 }
