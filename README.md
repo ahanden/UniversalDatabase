@@ -11,5 +11,11 @@ For Perl, the following packages are necessary
 * Term::ReadKey
 * XML::Parser
 
+The update.sh script is also dependant on the following Unix utilities:
+* gunzip
+* tar
+* unzip
+* wget
+
 ## Installation
 If installing or updating the database, just run update.sh
