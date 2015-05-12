@@ -147,3 +147,19 @@ CREATE TABLE `atc_codes` (
   `atc` varchar(8) NOT NULL,
   PRIMARY KEY(`drug_id`, `atc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `pathways`;
+CREATE TABLE `pathways` (
+  `id` int(10) unsigned PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `database` varchar(20) NOT NULL,
+  `external_id` varchar(20) NOT NULL,
+  KEY `external` (`database`, `external_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `pathway_participants`;
+CREATE TABLE `pathway_participants` (
+  `pathway_id` int(10) unsigned,
+  `entrez_id` int(10) unsigned,
+  PRIMARY KEY(`pathway_id`, `entrez_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
