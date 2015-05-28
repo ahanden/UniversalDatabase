@@ -58,6 +58,7 @@ if [ $VERBOSE ]; then
     wget ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data -O $RAWFILES/homologene.data
     wget http://www.drugbank.ca/system/downloads/current/drugbank.xml.zip -O $RAWFILES/drugbank.xml.zip
     wget http://www.reactome.org/download/current/biopax.zip -O $RAWFILES/biopax.zip
+    wget http://www.fda.gov/downloads/Drugs/InformationOnDrugs/UCM054599.zip -O $RAWFILES/UCM054599.zip
     echo "Done"
 else
     wget ftp://ftp.ncbi.nih.gov/gene/DATA/gene_info.gz -O $RAWFILES/gene_info.gz -q
@@ -67,6 +68,7 @@ else
     wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz -O $RAWFILES/taxdump.tar.gz -q
     wget ftp://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data -O $RAWFILES/homologene.data -q
     wget http://www.reactome.org/download/current/biopax.zip -O $RAWFILES/biopax.zip -q
+    wget http://www.fda.gov/downloads/Drugs/InformationOnDrugs/UCM054599.zip -O $RAWFILES/UCM054599.zip -q
 fi
 
 
@@ -82,6 +84,8 @@ tar -xzf $RAWFILES/taxdump.tar.gz -C $RAWFILES/ names.dmp
 rm $RAWFILES/taxdump.tar.gz
 unzip $RAWFILES/drugbank.xml.zip -d $RAWFILES/
 rm $RAWFILES/drugbank.xml.zip
+unzip $RAWFILES/UCM054599.zip Product.txt -d $RAWFILES/
+rm $RAWFILES/UCM054599.zip
 # Change this line later for including ALL pathways
 unzip $RAWFILES/biopax.zip Homo_sapiens.owl -d $RAWFILES/
 rm $RAWFILES/biopax.zip
@@ -108,6 +112,7 @@ echo -e "$DB\n$USER\n$PASS" | perl NCBI/uniprot.pl $RAWFILES/gene2accession $RAW
 echo -e "$DB\n$USER\n$PASS" | perl NCBI/tax_names.pl $RAWFILES/names.dmp $VERBOSE
 echo -e "$DB\n$USER\n$PASS" | perl NCBI/homologene.pl $RAWFILES/homologene.data $VERBOSE
 echo -e "$DB\n$USER\n$PASS" | perl DrugBank/drugbank.pl $RAWFILES/drugbank.xml $VERBOSE
+echo -e "$DB\n$USER\n$PASS" | perl FDA/drug_approval.pl $RAWFILES/Product.txt $VERBOSE
 echo -e "$DB\n$USER\n$PASS" | perl REACTOME/biopax.pl $RAWFILES/Homo_sapiens.owl $VERBOSE
 if [ $VERBOSE ]; then
     echo "Done"

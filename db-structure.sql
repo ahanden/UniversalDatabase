@@ -131,6 +131,7 @@ CREATE TABLE `drugs` (
   `name` varchar(255) NOT NULL,
   `database` varchar(20) NOT NULL,
   `external_id` varchar(15) NOT NULL,
+  `status` ENUM('discontinued', 'OTC', 'prescription', 'tentative approval') DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
